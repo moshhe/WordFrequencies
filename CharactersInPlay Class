@@ -1,0 +1,88 @@
+
+/**
+ * Write a description of class CharactersInPlay here.
+ *
+ * @author (your name)
+ * @version (a version number or a date)
+ */
+import edu.duke.*;
+import java.util.ArrayList;
+public class CharactersInPlay{
+    private ArrayList<String> myWords;
+    private ArrayList<Integer> frequency;
+
+    public CharactersInPlay(){
+        myWords = new ArrayList<String>();
+        frequency = new ArrayList<Integer>();
+    }
+
+    public void update(String person){
+        person = person.toLowerCase();
+        int index = myWords.indexOf(person);
+        if(index == -1){
+            myWords.add(person);
+            frequency.add(1);
+        }
+
+        else{
+            int freq = frequency.get(index);
+            frequency.set(index, freq + 1);
+        }
+
+    }
+
+    public void findAllCharacters(){
+        myWords.clear();
+        frequency.clear();
+
+        FileResource fr = new FileResource();
+        for(String line : fr.lines()){
+            int index = line.indexOf(".");
+            if(index !=-1){
+                String possibleName = line.substring(0, index);
+                update(possibleName);
+            }
+        }
+    }
+    public void charactersWithNumParts(int num1, int num2) {
+        for(int k=0; k < myWords.size(); k++){
+            if ((frequency.get(k) >= num1) && (frequency.get(k) < num2)) {
+                System.out.println(myWords.get(k)+ " "+frequency.get(k));
+            }
+        }
+    }
+    
+    public double getAverageSpeakingParts() {
+        double totalSpeakingParts = 0.0;
+        for(int k=0; k < myWords.size(); k++){
+            totalSpeakingParts += frequency.get(k);
+        }
+        return totalSpeakingParts /= myWords.size();
+    }
+
+    public int findIndexOfMax(){
+        int max = frequency.get(0);
+        int maxIndex = 0;
+        for(int k=0; k < frequency.size(); k++){
+            if (frequency.get(k) > max){
+                max = frequency.get(k);
+                maxIndex = k;
+            }
+        }
+        return maxIndex;
+    }
+        
+    public void tester() {
+        findAllCharacters();
+        
+        int index = findIndexOfMax();
+        System.out.println("max word/freq: "+myWords.get(index)+" "+frequency.get(index));
+        System.out.println("# unique: "+myWords.size());
+        
+        System.out.println("between 10 and 15, inclusive: ");
+        charactersWithNumParts(10, 16);
+
+        System.out.println("between 75 and 100000, inclusive: ");
+        charactersWithNumParts(75, 100000);
+    }
+}
