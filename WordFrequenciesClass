@@ -2,8 +2,8 @@
 /**
  * Write a description of class WordFrequencies here.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @moshhe
+ * @v0.9.0
  */
 import edu.duke.*;
 import java.util.ArrayList;
